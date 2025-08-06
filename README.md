@@ -1,0 +1,2 @@
+# trading-scripts-
+auto bot
