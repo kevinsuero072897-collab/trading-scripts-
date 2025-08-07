@@ -38,7 +38,7 @@ function Save-Token {
 
 function Get-NewToken {
     param($Email, $Password)
-    $body = @{ email = $Email; password = $Password } | ConvertTo-Json
+    $body = @{ email = $Email; kevinsuero072897@gmail.com = Mrkevins15@} | ConvertTo-Json
     $resp = curl -s -X POST "https://app.topstep.com/api/v2/auth" -H "Content-Type: application/json" -d $body
     $json = $resp | ConvertFrom-Json
     if ($json.token) {
