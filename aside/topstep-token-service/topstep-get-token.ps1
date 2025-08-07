@@ -1,5 +1,5 @@
-# Topstep Token Auto-Renew Script (PowerShell)
-# Requires: PowerShell 7+, curl, .env file in same directory with TOPSTEP_EMAIL and TOPSTEP_PASSWORD
+# Topstep Token Service (PowerShell) - Java-style logic
+# Place in root. Requires: PowerShell 7+, curl, .env file in root, token_cache.json in root
 
 param(
     [string]$EnvPath = "$(Join-Path $PSScriptRoot '.env')",
@@ -21,25 +21,29 @@ function Get-CachedToken {
     param([string]$Path)
     if (!(Test-Path $Path)) { return $null }
     $json = Get-Content $Path -Raw | ConvertFrom-Json
-    if ($json.expires_at -and ($json.expires_at -as [datetime]) -gt (Get-Date).AddMinutes(1)) {
-        return $json.token
+    if ($json.token -and $json.expiry) {
+        $now = [int][double]::Parse((Get-Date -UFormat %s))
+        if ($now -lt ($json.expiry - 60)) { # Renew 1 min before expiry
+            return $json.token
+        }
     }
     return $null
 }
 
 function Save-Token {
-    param([string]$Token, [datetime]$Expiry, [string]$Path)
-    $obj = @{ token = $Token; expires_at = $Expiry.ToString("o") }
+    param([string]$Token, [int]$Expiry, [string]$Path)
+    $obj = @{ token = $Token; expiry = $Expiry }
     $obj | ConvertTo-Json | Set-Content $Path
 }
 
 function Get-NewToken {
     param($Email, $Password)
     $body = @{ email = $Email; password = $Password } | ConvertTo-Json
-    $resp = curl -s -X POST "https://auth.topstep.com/api/v1/login" -H "Content-Type: application/json" -d $body
+    $resp = curl -s -X POST "https://app.topstep.com/api/v2/auth" -H "Content-Type: application/json" -d $body
     $json = $resp | ConvertFrom-Json
-    if ($json.token -and $json.expiry) {
-        return @{ token = $json.token; expires_at = $json.expiry }
+    if ($json.token) {
+        $expiry = [int][double]::Parse((Get-Date -UFormat %s)) + 3600 # Assume 1 hour token
+        return @{ token = $json.token; expiry = $expiry }
     } else {
         throw "Failed to get token: $($resp)"
     }
@@ -50,9 +54,8 @@ try {
     $password = Get-EnvVar -Key 'TOPSTEP_PASSWORD' -Path $EnvPath
     $token = Get-CachedToken -Path $CacheFile
     if (-not $token) {
-        Write-Host "Renewing Topstep token..."
         $tokendata = Get-NewToken -Email $email -Password $password
-        Save-Token -Token $tokendata.token -Expiry ($tokendata.expires_at -as [datetime]) -Path $CacheFile
+        Save-Token -Token $tokendata.token -Expiry $tokendata.expiry -Path $CacheFile
         $token = $tokendata.token
     }
     Write-Output $token
