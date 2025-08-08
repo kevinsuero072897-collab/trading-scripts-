@@ -6,8 +6,6 @@ This folder contains standalone utility scripts and tools for the trading system
 
 ### Java Scripts
 
-- **`FetchTopstepToken.java`** - Command-line utility to fetch authentication tokens from Topstep using PowerShell integration (moved to `../endpoint/FetchTopstepToken.java`)
-- **`FetchTopstepTokenApp.java`** - GUI application (Swing-based) for fetching Topstep authentication tokens with user-friendly interface (moved to `../endpoint/FetchTopstepTokenApp.java`)
 - **`strategy.11.java`** - Advanced trading strategy implementations including ScheduledEventVolatilityOverlayStrategy and ImpliedLiquidityMappingStrategy
 
 ### PowerShell Scripts
@@ -23,14 +21,9 @@ This folder contains standalone utility scripts and tools for the trading system
 ### Compiling Java Scripts
 
 ```bash
-# Note: Java files have been moved to ../endpoint/
-cd ../endpoint
-
-javac FetchTopstepToken.java
-java FetchTopstepToken
-
-javac FetchTopstepTokenApp.java
-java FetchTopstepTokenApp
+# For strategy implementations
+javac strategy.11.java
+java strategy.11
 ```
 
 ### Running PowerShell Scripts

@@ -8,8 +8,6 @@ This directory contains all endpoint and API client Java files for the trading s
 
 - **`PropFirmEndpoints.java`** - Main prop firm API client with authentication, token caching, and trading endpoint methods for Topstep platform
 - **`TopstepTokenService.java`** - Dedicated Topstep token service with HTTP client implementation, token caching, and configuration management
-- **`FetchTopstepToken.java`** - Command-line utility to fetch authentication tokens from Topstep using PowerShell integration
-- **`FetchTopstepTokenApp.java`** - GUI application (Swing-based) for fetching Topstep authentication tokens with user-friendly interface
 
 ## Features
 
@@ -23,10 +21,6 @@ This directory contains all endpoint and API client Java files for the trading s
 ### Compiling Files
 
 ```bash
-# Compile basic files (no external dependencies)
-javac FetchTopstepToken.java
-javac FetchTopstepTokenApp.java
-
 # For files requiring Jackson library dependency:
 # javac -cp "path/to/jackson-databind.jar:." PropFirmEndpoints.java TopstepTokenService.java
 ```
@@ -34,8 +28,6 @@ javac FetchTopstepTokenApp.java
 ### Running Applications
 
 ```bash
-java FetchTopstepToken
-java FetchTopstepTokenApp
 # java PropFirmEndpoints  # Requires Jackson dependency
 # java TopstepTokenService  # Requires Jackson dependency and config.properties
 ```
