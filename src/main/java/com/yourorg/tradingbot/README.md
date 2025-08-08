@@ -29,6 +29,10 @@ Structured Java packages implementing a professional-grade, institutional-qualit
 - **`StatArbStrategy.java`** - Statistical arbitrage strategy implementation  
 - **`TradeSignal.java`** - Trade signal generation and management
 
+#### 🌐 **Trading Endpoints**
+- **`TopstepXTrading.java`** - TopstepX API client for ES and NQ futures trading
+- **`TopstepXTradingTest.java`** - Test suite for TopstepX trading functionality
+
 ## Key Features
 
 ### 🚀 **Professional Architecture**
@@ -43,6 +47,7 @@ Structured Java packages implementing a professional-grade, institutional-qualit
 - **Meta-Learning**: Adaptive strategies that learn and evolve
 - **Explainable AI**: Transparent decision-making processes
 - **Audit Compliance**: Full regulatory audit trail
+- **TopstepX Integration**: Direct ES/NQ futures trading with dynamic token support
 
 ### 📊 **Strategy Framework**
 - **Modular Design**: Easy to add new strategies
