@@ -1,0 +1,6 @@
+# Java class files
+*.class
+# Temporary files
+Test*.java
+test*.java
+/tmp/
