@@ -1,8 +1,7 @@
-// Combined Prop Firm Endpoints and Token Service Example
-
 import java.io.*;
 import java.net.URI;
 import java.net.http.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -63,6 +62,29 @@ public class PropFirmEndpoints {
         mapper.writerWithDefaultPrettyPrinter().writeValue(new File(TOKEN_CACHE_FILE), cache);
     }
 
+    // New: Retrieve active accounts for this session
+    public JsonNode getActiveAccounts() throws Exception {
+        String url = "https://api.topstepx.com/api/Account/search";
+        HttpClient client = HttpClient.newHttpClient();
+        String body = "{\"onlyActiveAccounts\":true}";
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Authorization", "Bearer " + sessionToken)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = mapper.readTree(response.body());
+
+        // Optionally print or handle errors here
+        if (!json.has("accounts")) {
+            throw new RuntimeException("No accounts field in response: " + json.toPrettyString());
+        }
+        return json.get("accounts");
+    }
+
     // Example: Placeholder for a trading endpoint method
     public void placeOrder(String symbol, String side, int quantity, String type) throws Exception {
         String orderUrl = "https://api.topstepx.com/api/trading/orders"; // Replace with actual endpoint
@@ -81,6 +103,8 @@ public class PropFirmEndpoints {
 
     public static void main(String[] args) throws Exception {
         PropFirmEndpoints api = new PropFirmEndpoints();
+        // Print all active accounts
+        System.out.println("Active Accounts: " + api.getActiveAccounts().toPrettyString());
         // Example: Place a market buy order (update with valid params)
         // api.placeOrder("ESU5", "buy", 1, "market");
         System.out.println("Session token: " + api.sessionToken);
