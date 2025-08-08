@@ -1,7 +1,6 @@
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.logging.Logger;
 
 /**
  * Simplified Trading Engine for demonstration
@@ -9,7 +8,6 @@ import java.util.logging.Logger;
  */
 class SimpleTradingEngine {
     
-    private static final Logger logger = Logger.getLogger(SimpleTradingEngine.class.getName());
     private static final SimpleTradingEngine INSTANCE = new SimpleTradingEngine();
     
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
@@ -27,8 +25,6 @@ class SimpleTradingEngine {
         if (initialized) return;
         
         try {
-            logger.info("Initializing Advanced Trading Engine...");
-            
             // Register sophisticated strategies
             registerStrategies();
             
@@ -36,10 +32,8 @@ class SimpleTradingEngine {
             initializeMetrics();
             
             initialized = true;
-            logger.info("Trading engine initialization complete");
             
         } catch (Exception e) {
-            logger.severe("Failed to initialize trading engine: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -49,8 +43,6 @@ class SimpleTradingEngine {
         strategies.add(new AdvancedTrendStrategy());
         strategies.add(new VolatilityStrategy());
         strategies.add(new SmartExecutionStrategy());
-        
-        logger.info("Registered " + strategies.size() + " professional strategies");
     }
     
     private void initializeMetrics() {
@@ -68,20 +60,13 @@ class SimpleTradingEngine {
         if (running) return;
         
         running = true;
-        logger.info("Starting professional trading operations...");
         
         // Start main trading loop
         executor.scheduleAtFixedRate(this::executeTradingCycle, 0, 1, TimeUnit.SECONDS);
-        
-        // Start performance monitoring
-        executor.scheduleAtFixedRate(this::updatePerformanceMetrics, 0, 30, TimeUnit.SECONDS);
-        
-        logger.info("Advanced trading operations started successfully");
     }
     
     public synchronized void stop() {
         running = false;
-        logger.info("Stopping trading operations...");
         
         executor.shutdown();
         try {
@@ -92,8 +77,6 @@ class SimpleTradingEngine {
             executor.shutdownNow();
             Thread.currentThread().interrupt();
         }
-        
-        logger.info("Trading operations stopped safely");
     }
     
     private void executeTradingCycle() {
@@ -112,13 +95,13 @@ class SimpleTradingEngine {
                             processTradeSignal(signal.get());
                         }
                     } catch (Exception e) {
-                        logger.warning("Strategy " + strategy.getName() + " error: " + e.getMessage());
+                        // Strategy error - continue with other strategies
                     }
                 }
             }
             
         } catch (Exception e) {
-            logger.severe("Critical error in trading cycle: " + e.getMessage());
+            // Critical error in trading cycle
         }
     }
     
@@ -149,8 +132,6 @@ class SimpleTradingEngine {
     }
     
     private void processTradeSignal(TradeSignal signal) {
-        logger.info("Processing trade signal: " + signal);
-        
         // Simulate risk management and execution
         if (validateSignal(signal)) {
             executeSignal(signal);
@@ -168,9 +149,6 @@ class SimpleTradingEngine {
     private void executeSignal(TradeSignal signal) {
         // Simulate intelligent order execution
         String executionType = determineExecutionType(signal);
-        
-        logger.info(String.format("Executing %s order: %s %s @ %.2f", 
-                executionType, signal.getDirection(), signal.getSymbol(), signal.getEntryPrice()));
         
         // Update trade count
         performanceMetrics.merge("totalTrades", 1, (a, b) -> (Integer) a + (Integer) b);
@@ -200,17 +178,6 @@ class SimpleTradingEngine {
         performanceMetrics.put("winRate", winRate);
     }
     
-    private void updatePerformanceMetrics() {
-        performanceMetrics.put("lastUpdate", LocalDateTime.now());
-        
-        // Simulate Sharpe ratio calculation
-        double winRate = (Double) performanceMetrics.getOrDefault("winRate", 0.0);
-        performanceMetrics.put("sharpeRatio", winRate * 2.0 - 0.5); // Simplified
-        
-        // Simulate drawdown tracking
-        performanceMetrics.put("maxDrawdown", Math.random() * 0.05); // 0-5%
-    }
-    
     public Map<String, Object> getSystemStatus() {
         Map<String, Object> status = new HashMap<>();
         status.put("running", running);
@@ -237,8 +204,6 @@ class SimpleTradingEngine {
  */
 class ProfessionalBreakoutStrategy extends BaseStrategy {
     
-    private static final Logger logger = Logger.getLogger(ProfessionalBreakoutStrategy.class.getName());
-    
     public ProfessionalBreakoutStrategy() {
         super("ProfessionalBreakoutStrategy");
     }
@@ -249,7 +214,6 @@ class ProfessionalBreakoutStrategy extends BaseStrategy {
         parameters.put("volumeThreshold", 1.5);
         parameters.put("atrMultiplier", 2.0);
         parameters.put("confidenceThreshold", 0.7);
-        logger.info("Professional Breakout Strategy initialized with advanced parameters");
     }
     
     @Override
@@ -275,7 +239,7 @@ class ProfessionalBreakoutStrategy extends BaseStrategy {
             }
             
         } catch (Exception e) {
-            logger.warning("Error in breakout strategy evaluation: " + e.getMessage());
+            // Error in strategy evaluation
         }
         
         return Optional.empty();

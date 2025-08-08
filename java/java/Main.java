@@ -1,5 +1,3 @@
-import java.util.logging.Logger;
-
 /**
  * Main entry point for the professional trading system
  * 
@@ -8,12 +6,9 @@ import java.util.logging.Logger;
  */
 public class Main {
     
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
-    
     public static void main(String[] args) {
         try {
             System.out.println("Starting Professional Trading Bot...");
-            logger.info("Initializing advanced trading system with sophisticated strategies");
             
             // Initialize the professional trading engine
             SimpleTradingEngine engine = SimpleTradingEngine.getInstance();
@@ -30,18 +25,13 @@ public class Main {
             // Demonstrate the new advanced features
             demonstrateAdvancedFeatures(engine);
             
-            // Keep the application running and monitor performance
+            // Keep the application running
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                logger.info("Shutting down professional trading system...");
                 engine.stop();
                 System.out.println("Trading Bot stopped safely with all positions closed.");
             }));
             
-            // Start performance monitoring
-            startPerformanceMonitoring(engine);
-            
         } catch (Exception e) {
-            logger.severe("Failed to start professional trading system: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
         }
@@ -52,8 +42,6 @@ public class Main {
      */
     private static void runLegacyStrategies() {
         try {
-            logger.info("Running legacy strategy examples for compatibility...");
-            
             // Example: Run StrategyA (legacy compatibility)
             StrategyA stratA = new StrategyA();
             stratA.run();
@@ -61,7 +49,7 @@ public class Main {
             System.out.println("Legacy strategies executed successfully.");
             
         } catch (Exception e) {
-            logger.warning("Error running legacy strategies: " + e.getMessage());
+            System.out.println("Error running legacy strategies: " + e.getMessage());
         }
     }
     
@@ -119,58 +107,8 @@ public class Main {
         System.out.println("  - Real-time visualization data export");
         System.out.println("  - RESTful API for external system integration");
         
-        System.out.println("\n✓ Professional Monitoring & Analytics:");
-        System.out.println("  - Real-time performance metrics and Sharpe ratio tracking");
-        System.out.println("  - Strategy-level performance attribution");
-        System.out.println("  - Risk-adjusted returns and maximum drawdown analysis");
-        System.out.println("  - Trade-level execution analytics and TCA (Transaction Cost Analysis)");
-        
         System.out.println("\n" + "=".repeat(60));
         System.out.println("System Status: " + engine.getSystemStatus());
         System.out.println("=".repeat(60) + "\n");
-    }
-    
-    /**
-     * Start comprehensive performance monitoring
-     */
-    private static void startPerformanceMonitoring(SimpleTradingEngine engine) {
-        Thread monitoringThread = new Thread(() -> {
-            try {
-                int cycles = 0;
-                while (true) {
-                    Thread.sleep(15000); // Every 15 seconds for demo
-                    cycles++;
-                    
-                    var status = engine.getSystemStatus();
-                    var metrics = engine.getPerformanceMetrics();
-                    
-                    System.out.printf("[%d] Status: %s | Metrics: %s%n", cycles, status, metrics);
-                    
-                    // Detailed logging every 5 cycles (75 seconds)
-                    if (cycles % 5 == 0) {
-                        logger.info("Detailed System Health Check:");
-                        logger.info("  Active Strategies: " + status.get("activeStrategies"));
-                        logger.info("  Total Trades: " + metrics.get("totalTrades"));
-                        logger.info("  Win Rate: " + String.format("%.2f%%", 
-                                   (Double) metrics.getOrDefault("winRate", 0.0) * 100));
-                        logger.info("  Sharpe Ratio: " + String.format("%.3f", 
-                                   (Double) metrics.getOrDefault("sharpeRatio", 0.0)));
-                        logger.info("  Max Drawdown: " + String.format("%.2f%%", 
-                                   (Double) metrics.getOrDefault("maxDrawdown", 0.0) * 100));
-                    }
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                logger.info("Performance monitoring stopped gracefully");
-            } catch (Exception e) {
-                logger.warning("Error in performance monitoring: " + e.getMessage());
-            }
-        });
-        
-        monitoringThread.setDaemon(true);
-        monitoringThread.setName("ProfessionalPerformanceMonitor");
-        monitoringThread.start();
-        
-        logger.info("Professional performance monitoring started with real-time analytics");
     }
 }
