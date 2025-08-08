@@ -28,7 +28,7 @@ public class FetchTopstepTokenApp extends JFrame {
 
     private void fetchToken() {
         try {
-            String scriptPath = "./aside/topstep-token-service/topstep-get-token.ps1";
+            String scriptPath = "../aside/topstep-token-service/topstep-get-token.ps1";
             ProcessBuilder pb = new ProcessBuilder("pwsh", scriptPath);
             pb.redirectErrorStream(true);
             Process process = pb.start();

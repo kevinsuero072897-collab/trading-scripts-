@@ -4,7 +4,7 @@ Authentication service for Topstep trading platform with token caching and manag
 
 ## Contents
 
-- **`TopstepTokenService.java`** - Java-based token service with HTTP client implementation, token caching, and configuration management
+- **`TopstepTokenService.java`** - Java-based token service with HTTP client implementation, token caching, and configuration management (moved to `../../endpoint/TopstepTokenService.java`)
 - **`topstep-get-token.ps1`** - PowerShell 7+ equivalent implementation for token retrieval with environment variable support
 
 ## Features
@@ -27,6 +27,8 @@ topstep.password=your-password
 
 2. Compile and run:
 ```bash
+# Note: TopstepTokenService.java has been moved to ../../endpoint/
+cd ../../endpoint
 javac TopstepTokenService.java  # Requires Jackson dependency
 java TopstepTokenService
 ```
