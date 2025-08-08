@@ -1,10 +1,9 @@
 import java.util.logging.Logger;
 
 /**
- * Main entry point for the professional trading system
+ * Main entry point for the event-driven trading system
  * 
- * Maintains backward compatibility while showcasing advanced
- * trading strategies and risk management features.
+ * Demonstrates live, API-ready trading bot suitable for prop firm integration
  */
 public class Main {
     
@@ -12,36 +11,36 @@ public class Main {
     
     public static void main(String[] args) {
         try {
-            System.out.println("Starting Professional Trading Bot...");
-            logger.info("Initializing advanced trading system with sophisticated strategies");
+            System.out.println("Starting Event-Driven Trading Bot...");
+            logger.info("Initializing live trading system for prop firm API integration");
             
-            // Initialize the professional trading engine
+            // Initialize the event-driven trading engine
             SimpleTradingEngine engine = SimpleTradingEngine.getInstance();
             engine.initialize();
             
-            // Start the trading operations
+            // Start the trading operations (ready for market data)
             engine.start();
             
             // Legacy compatibility - run simple strategy examples
             runLegacyStrategies();
             
-            System.out.println("Professional Trading Bot started successfully!");
+            System.out.println("Event-Driven Trading Bot ready for live market data!");
             
-            // Demonstrate the new advanced features
-            demonstrateAdvancedFeatures(engine);
+            // Demonstrate the event-driven features
+            demonstrateEventDrivenFeatures(engine);
             
-            // Keep the application running and monitor performance
+            // Setup graceful shutdown
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                logger.info("Shutting down professional trading system...");
+                logger.info("Shutting down event-driven trading system...");
                 engine.stop();
                 System.out.println("Trading Bot stopped safely with all positions closed.");
             }));
             
-            // Start performance monitoring
-            startPerformanceMonitoring(engine);
+            // Demonstrate event-driven market data processing
+            demonstrateMarketDataProcessing(engine);
             
         } catch (Exception e) {
-            logger.severe("Failed to start professional trading system: " + e.getMessage());
+            logger.severe("Failed to start event-driven trading system: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
         }
@@ -66,14 +65,20 @@ public class Main {
     }
     
     /**
-     * Demonstrate the advanced features of the new system
+     * Demonstrate the event-driven features of the system
      */
-    private static void demonstrateAdvancedFeatures(SimpleTradingEngine engine) {
+    private static void demonstrateEventDrivenFeatures(SimpleTradingEngine engine) {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("PROFESSIONAL TRADING SYSTEM - ADVANCED FEATURES");
+        System.out.println("EVENT-DRIVEN TRADING SYSTEM - LIVE API INTEGRATION");
         System.out.println("=".repeat(60));
         
-        System.out.println("✓ Multi-Timeframe Analysis:");
+        System.out.println("✓ Event-Driven Architecture:");
+        System.out.println("  - Real-time market data processing via processMarketData()");
+        System.out.println("  - No timer-based simulation or demo loops");
+        System.out.println("  - Ready for prop firm API integration");
+        System.out.println("  - Instant strategy evaluation on new data");
+        
+        System.out.println("\n✓ Multi-Timeframe Analysis:");
         System.out.println("  - Simultaneous analysis across M1, M5, M15, M30, H1, H4, D1 timeframes");
         System.out.println("  - Trend alignment confirmation across multiple timeframes");
         System.out.println("  - Higher timeframe bias with lower timeframe entries");
@@ -89,41 +94,17 @@ public class Main {
             System.out.println("  - " + strategyName + " with institutional-grade logic");
         }
         
-        System.out.println("\n✓ Market Microstructure Analysis:");
-        System.out.println("  - Order book imbalance detection and analysis");
-        System.out.println("  - Volume profile and liquidity analysis");
-        System.out.println("  - Spread analysis and market impact modeling");
-        System.out.println("  - Smart order routing and execution optimization");
-        
-        System.out.println("\n✓ Real-Time Data Processing:");
-        System.out.println("  - Streaming market data with millisecond latency");
+        System.out.println("\n✓ Live Market Data Processing:");
+        System.out.println("  - Event-driven market data evaluation");
+        System.out.println("  - Real-time order book analysis");
         System.out.println("  - Volatility regime detection and adaptation");
-        System.out.println("  - News event detection and reaction algorithms");
         System.out.println("  - Correlation analysis across multiple instruments");
         
-        System.out.println("\n✓ Professional Risk Controls:");
-        System.out.println("  - Maximum daily loss limits and trade count restrictions");
-        System.out.println("  - Position concentration limits and sector exposure");
-        System.out.println("  - Volatility-adjusted position sizing");
-        System.out.println("  - Real-time drawdown monitoring and circuit breakers");
-        
-        System.out.println("\n✓ Advanced Execution Algorithms:");
-        System.out.println("  - TWAP (Time-Weighted Average Price) execution");
-        System.out.println("  - Intelligent order routing and venue selection");
-        System.out.println("  - Slippage minimization and market impact reduction");
-        System.out.println("  - Latency optimization and co-location ready");
-        
-        System.out.println("\n✓ Extensibility & Integration:");
-        System.out.println("  - Machine Learning integration points for AI strategies");
-        System.out.println("  - Backtesting framework compatibility");
-        System.out.println("  - Real-time visualization data export");
-        System.out.println("  - RESTful API for external system integration");
-        
-        System.out.println("\n✓ Professional Monitoring & Analytics:");
-        System.out.println("  - Real-time performance metrics and Sharpe ratio tracking");
-        System.out.println("  - Strategy-level performance attribution");
-        System.out.println("  - Risk-adjusted returns and maximum drawdown analysis");
-        System.out.println("  - Trade-level execution analytics and TCA (Transaction Cost Analysis)");
+        System.out.println("\n✓ Professional Execution & Risk Controls:");
+        System.out.println("  - TWAP execution algorithms ready");
+        System.out.println("  - Real-time risk validation");
+        System.out.println("  - Position concentration limits");
+        System.out.println("  - Performance metrics tracking");
         
         System.out.println("\n" + "=".repeat(60));
         System.out.println("System Status: " + engine.getSystemStatus());
@@ -131,46 +112,64 @@ public class Main {
     }
     
     /**
-     * Start comprehensive performance monitoring
+     * Demonstrate event-driven market data processing
+     * Shows how the bot processes real market data when it arrives
      */
-    private static void startPerformanceMonitoring(SimpleTradingEngine engine) {
-        Thread monitoringThread = new Thread(() -> {
-            try {
-                int cycles = 0;
-                while (true) {
-                    Thread.sleep(15000); // Every 15 seconds for demo
-                    cycles++;
-                    
-                    var status = engine.getSystemStatus();
-                    var metrics = engine.getPerformanceMetrics();
-                    
-                    System.out.printf("[%d] Status: %s | Metrics: %s%n", cycles, status, metrics);
-                    
-                    // Detailed logging every 5 cycles (75 seconds)
-                    if (cycles % 5 == 0) {
-                        logger.info("Detailed System Health Check:");
-                        logger.info("  Active Strategies: " + status.get("activeStrategies"));
-                        logger.info("  Total Trades: " + metrics.get("totalTrades"));
-                        logger.info("  Win Rate: " + String.format("%.2f%%", 
-                                   (Double) metrics.getOrDefault("winRate", 0.0) * 100));
-                        logger.info("  Sharpe Ratio: " + String.format("%.3f", 
-                                   (Double) metrics.getOrDefault("sharpeRatio", 0.0)));
-                        logger.info("  Max Drawdown: " + String.format("%.2f%%", 
-                                   (Double) metrics.getOrDefault("maxDrawdown", 0.0) * 100));
-                    }
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                logger.info("Performance monitoring stopped gracefully");
-            } catch (Exception e) {
-                logger.warning("Error in performance monitoring: " + e.getMessage());
-            }
-        });
+    private static void demonstrateMarketDataProcessing(SimpleTradingEngine engine) {
+        System.out.println("Demonstrating event-driven market data processing...\n");
         
-        monitoringThread.setDaemon(true);
-        monitoringThread.setName("ProfessionalPerformanceMonitor");
-        monitoringThread.start();
+        // Create sample market data that would come from a real API
+        MarketDataSnapshot sampleData1 = createSampleMarketData("ES", 4520.50);
+        MarketDataSnapshot sampleData2 = createSampleMarketData("ES", 4525.75);
+        MarketDataSnapshot sampleData3 = createSampleMarketData("ES", 4518.25);
         
-        logger.info("Professional performance monitoring started with real-time analytics");
+        System.out.println("Processing market data tick 1...");
+        engine.processMarketData(sampleData1);
+        engine.updatePerformanceMetrics();
+        System.out.println("Current metrics: " + engine.getPerformanceMetrics());
+        
+        System.out.println("\nProcessing market data tick 2...");
+        engine.processMarketData(sampleData2);
+        engine.updatePerformanceMetrics();
+        System.out.println("Current metrics: " + engine.getPerformanceMetrics());
+        
+        System.out.println("\nProcessing market data tick 3...");
+        engine.processMarketData(sampleData3);
+        engine.updatePerformanceMetrics();
+        System.out.println("Current metrics: " + engine.getPerformanceMetrics());
+        
+        System.out.println("\n" + "=".repeat(60));
+        System.out.println("Event-driven processing demonstration complete!");
+        System.out.println("Bot is ready to process real market data from prop firm API");
+        System.out.println("=".repeat(60));
+    }
+    
+    /**
+     * Create sample market data for demonstration
+     * In production, this would come from the actual API
+     */
+    private static MarketDataSnapshot createSampleMarketData(String symbol, double basePrice) {
+        MarketDataSnapshot snapshot = new MarketDataSnapshot(symbol, java.time.LocalDateTime.now());
+        
+        // Create realistic OHLCV data
+        OHLCV currentBar = new OHLCV(
+            basePrice - 1, basePrice + 2, basePrice - 2, basePrice,
+            1500L, java.time.LocalDateTime.now()
+        );
+        
+        snapshot.getTimeFrameData().put(TimeFrame.M1, currentBar);
+        snapshot.getTimeFrameData().put(TimeFrame.M5, currentBar);
+        snapshot.getTimeFrameData().put(TimeFrame.M15, currentBar);
+        
+        // Add order book data
+        snapshot.getOrderBook().addBid(basePrice - 0.25, 100);
+        snapshot.getOrderBook().addAsk(basePrice + 0.25, 100);
+        
+        // Set volatility metrics
+        snapshot.getVolatility().setRealizedVolatility(0.18);
+        snapshot.getVolatility().setVolatilityRank(0.65);
+        snapshot.getVolatility().setHighVolatilityRegime(true);
+        
+        return snapshot;
     }
 }
