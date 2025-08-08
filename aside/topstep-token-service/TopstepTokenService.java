@@ -21,6 +21,16 @@ public class TopstepTokenService {
     private final String email;
     private final String password;
 
+    // KeyChangeListener support
+    public interface KeyChangeListener {
+        void onKeyChange(String newToken);
+    }
+    private KeyChangeListener keyChangeListener = null;
+
+    public void setKeyChangeListener(KeyChangeListener listener) {
+        this.keyChangeListener = listener;
+    }
+
     public TopstepTokenService() throws IOException {
         Properties props = new Properties();
         try (InputStream in = new FileInputStream(CONFIG_FILE)) {
@@ -48,6 +58,10 @@ public class TopstepTokenService {
             return cache.token;
         }
         TokenCache newCache = fetchAndCacheToken();
+        // Notify listener if present
+        if (keyChangeListener != null) {
+            keyChangeListener.onKeyChange(newCache.token);
+        }
         return newCache.token;
     }
 
@@ -113,6 +127,9 @@ public class TopstepTokenService {
     public static void main(String[] args) {
         try {
             TopstepTokenService service = new TopstepTokenService();
+            service.setKeyChangeListener(newToken -> {
+                System.out.println("Token changed! New token: " + newToken);
+            });
             String token = service.getToken();
             System.out.println("Topstep token: " + token);
         } catch (Exception e) {
